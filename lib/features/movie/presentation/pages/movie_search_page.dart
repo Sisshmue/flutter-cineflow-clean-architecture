@@ -71,7 +71,9 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
                   ],
                 );
               }
-              return Center();
+              return Center(
+                child: Text('Something is wrong, Please try again!'),
+              );
             },
           ),
         ),

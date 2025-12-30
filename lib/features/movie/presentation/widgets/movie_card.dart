@@ -12,9 +12,12 @@ class MovieCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.network(movie.posterUrl, fit: BoxFit.cover),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.4,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.network(movie.posterUrl, fit: BoxFit.cover),
+            ),
           ),
         ),
 

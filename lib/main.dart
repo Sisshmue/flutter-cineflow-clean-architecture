@@ -13,18 +13,7 @@ void main() {
   initDependencies();
   runApp(
     MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => MovieBloc(
-            getReleaseMovies: GetReleasedMovies(
-              movieRepository: MovieRepositoryImpl(
-                remoteMovieDataSource: RemoteMovieDataSourceImpl(),
-              ),
-            ),
-            apiKey: serviceLocator(),
-          ),
-        ),
-      ],
+      providers: [BlocProvider(create: (_) => serviceLocator<MovieBloc>())],
       child: const MyApp(),
     ),
   );
