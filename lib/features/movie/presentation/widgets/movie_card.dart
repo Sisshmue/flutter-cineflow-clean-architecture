@@ -12,16 +12,12 @@ class MovieCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Pallete.surface,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Center(
-              child: Icon(Icons.movie, size: 50, color: Pallete.textDisabled),
-            ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.network(movie.posterUrl, fit: BoxFit.cover),
           ),
         ),
+
         const SizedBox(height: 8),
         Text(
           movie.title,

@@ -3,5 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import '../entity/movie.dart';
 
 abstract interface class MovieRepository {
-  Future<Either<Failure, Movie>> searchMovie({required String keyword});
+  Future<Either<Failure, List<Movie>>> getReleaseMovies({
+    required String apiKey,
+  });
 }

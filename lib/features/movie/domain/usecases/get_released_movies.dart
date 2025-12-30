@@ -4,19 +4,19 @@ import 'package:cineflow/features/movie/domain/repository/movie_repository.dart'
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/usecase.dart';
 
-class SearchMovie implements UseCase<Movie, SearchMovieParam> {
+class GetReleasedMovies implements UseCase<List<Movie>, SearchMovieParam> {
   final MovieRepository movieRepository;
 
-  SearchMovie({required this.movieRepository});
+  GetReleasedMovies({required this.movieRepository});
 
   @override
-  Future<Either<Failure, Movie>> call(SearchMovieParam params) async {
-    return await movieRepository.searchMovie(keyword: params.keyword);
+  Future<Either<Failure, List<Movie>>> call(SearchMovieParam params) async {
+    return await movieRepository.getReleaseMovies(apiKey: params.apiKey);
   }
 }
 
 class SearchMovieParam {
-  final String keyword;
+  final String apiKey;
 
-  SearchMovieParam({required this.keyword});
+  SearchMovieParam({required this.apiKey});
 }

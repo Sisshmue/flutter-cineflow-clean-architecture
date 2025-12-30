@@ -1,9 +1,33 @@
 import 'package:cineflow/core/theme/app_theme.dart';
+import 'package:cineflow/features/movie/data/data_sources/remote_movie_data_source.dart';
+import 'package:cineflow/features/movie/data/respository/movie_repository_impl.dart';
+import 'package:cineflow/features/movie/domain/usecases/get_released_movies.dart';
+import 'package:cineflow/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:cineflow/features/movie/presentation/pages/movie_search_page.dart';
+import 'package:cineflow/init_dependencies.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 void main() {
-  runApp(const MyApp());
+  initDependencies();
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => MovieBloc(
+            getReleaseMovies: GetReleasedMovies(
+              movieRepository: MovieRepositoryImpl(
+                remoteMovieDataSource: RemoteMovieDataSourceImpl(),
+              ),
+            ),
+            apiKey: serviceLocator(),
+          ),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
