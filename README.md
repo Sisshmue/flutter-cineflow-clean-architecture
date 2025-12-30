@@ -1,16 +1,13 @@
-# cineflow
+📽️ CineFlow - Movie Discovery
+CineFlow is a mobile application that allows users to search for movies and view detailed information, including ratings, cast, and summaries.
 
-A new Flutter project.
+🏗️ Architecture & State Management
+This project strictly follows Clean Architecture principles to ensure a separation of concerns, testability, and maintainability.
 
-## Getting Started
+State Management: BLoC (Business Logic Component)
 
-This project is a starting point for a Flutter application.
+Dependency Injection: GetIt
 
-A few resources to get you started if this is your first Flutter project:
+External API: TMDB (The Movie Database)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+📁 Folder Structure
