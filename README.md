@@ -11,3 +11,12 @@ Dependency Injection: GetIt
 External API: TMDB (The Movie Database)
 
 📁 Folder Structure
+
+lib/
+ ├── core/                # Constants, params, and common widgets
+ ├── features/
+ │   └── movie/
+ │       ├── domain/      # Entities, Repository Interfaces, UseCases
+ │       ├── data/        # Models, Repository Impl, Data Sources
+ │       └── presentation/# BLoC, Pages, and Widgets
+ └── init_dependencies.dart # GetIt Service Locator
