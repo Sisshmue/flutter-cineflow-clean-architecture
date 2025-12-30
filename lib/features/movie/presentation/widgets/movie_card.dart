@@ -32,7 +32,7 @@ class MovieCard extends StatelessWidget {
           ),
         ),
         Text(
-          "${movie.year} • ★ ${movie.rating}",
+          "${movie.releaseDate} • ★ ${movie.rating}",
           style: const TextStyle(color: Pallete.textSecondary, fontSize: 12),
         ),
       ],
