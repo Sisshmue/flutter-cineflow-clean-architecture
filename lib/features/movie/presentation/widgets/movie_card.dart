@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cineflow/core/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import '../../domain/entity/movie.dart';
@@ -16,7 +17,22 @@ class MovieCard extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.4,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.network(movie.posterUrl, fit: BoxFit.cover),
+              child: CachedNetworkImage(
+                imageUrl: movie.posterUrl,
+                fit: BoxFit.cover,
+                placeholder: (context, error) {
+                  return Center(child: CircularProgressIndicator());
+                },
+                errorWidget: (context, url, error) {
+                  return Center(
+                    child: Icon(
+                      Icons.movie,
+                      size: 50,
+                      color: Pallete.textDisabled,
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),
@@ -31,7 +47,7 @@ class MovieCard extends StatelessWidget {
           ),
         ),
         Text(
-          "${movie.releaseDate} • ★ ${movie.rating}",
+          "${movie.releaseDate} :  ${movie.type}",
           style: const TextStyle(color: Pallete.textSecondary, fontSize: 12),
         ),
       ],

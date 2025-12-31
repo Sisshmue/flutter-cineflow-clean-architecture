@@ -1,8 +1,6 @@
 import 'package:cineflow/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../domain/entity/movie.dart';
 import '../widgets/movie_card.dart';
 import '../widgets/movie_search_bar.dart';
 
