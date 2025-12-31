@@ -1,3 +1,4 @@
+import 'package:cineflow/core/common/presentaion/main_page.dart';
 import 'package:cineflow/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cineflow/features/auth/presentation/pages/log_in.dart';
 import 'package:cineflow/features/movie/presentation/pages/movie_search_page.dart';
@@ -22,7 +23,7 @@ class AuthWrapper extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (state is AuthSuccess) {
-            return const MovieSearchPage();
+            return const MainPage();
           }
           if (state is UnAuthenticatedState) {
             return const LoginPage();
