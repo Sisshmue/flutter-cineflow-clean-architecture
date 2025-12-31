@@ -56,12 +56,19 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.movie_filter,
-                    size: 80,
-                    color: Pallete.primaryRed,
+                  // const Icon(
+                  //   Icons.movie_filter,
+                  //   size: 80,
+                  //   color: Pallete.primaryRed,
+                  // ),
+                  SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: Image.asset(
+                      'assets/image/app_logo_img.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  const SizedBox(height: 20),
                   const Text(
                     "Create Account",
                     style: TextStyle(

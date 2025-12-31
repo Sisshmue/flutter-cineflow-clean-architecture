@@ -31,78 +31,92 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Pallete.background,
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.movie_filter,
-                size: 80,
-                color: Pallete.primaryRed,
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                "Welcome Back",
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 40),
-              AuthField(
-                hintText: "Email",
-                icon: Icons.email,
-                controller: _emailController,
-              ),
-              const SizedBox(height: 16),
-              AuthField(
-                hintText: "Password",
-                icon: Icons.lock,
-                isPassword: true,
-                controller: _passwordController,
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Pallete.primaryRed,
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 200,
+                          height: 200,
+                          child: Image.asset(
+                            'assets/image/app_logo_img.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const Text(
+                          "Welcome Back",
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        AuthField(
+                          hintText: "Email",
+                          icon: Icons.email,
+                          controller: _emailController,
+                        ),
+                        const SizedBox(height: 16),
+                        AuthField(
+                          hintText: "Password",
+                          icon: Icons.lock,
+                          isPassword: true,
+                          controller: _passwordController,
+                        ),
+                        const SizedBox(height: 24),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Pallete.primaryRed,
+                            minimumSize: const Size(double.infinity, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              FocusScope.of(context).unfocus();
+                              context.read<AuthBloc>().add(
+                                AuthLogIn(
+                                  email: _emailController.text.trim(),
+                                  password: _passwordController.text.trim(),
+                                ),
+                              );
+                            }
+                          },
+                          child: const Text(
+                            "LOG IN",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () =>
+                              Navigator.push(context, SignUpPage.route()),
+                          child: const Text(
+                            "Don't have an account? Sign Up",
+                            style: TextStyle(color: Pallete.textSecondary),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    FocusScope.of(context).unfocus();
-                    context.read<AuthBloc>().add(
-                      AuthLogIn(
-                        email: _emailController.text.trim(),
-                        password: _passwordController.text.trim(),
-                      ),
-                    );
-                  }
-                },
-                child: const Text(
-                  "LOG IN",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
               ),
-              TextButton(
-                onPressed: () => Navigator.push(context, SignUpPage.route()),
-                child: const Text(
-                  "Don't have an account? Sign Up",
-                  style: TextStyle(color: Pallete.textSecondary),
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
