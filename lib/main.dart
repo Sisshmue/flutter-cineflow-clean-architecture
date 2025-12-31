@@ -1,6 +1,6 @@
 import 'package:cineflow/core/theme/app_theme.dart';
 import 'package:cineflow/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:cineflow/features/auth/presentation/pages/log_in.dart';
+import 'package:cineflow/features/auth/presentation/widgets/auth_wrapper.dart';
 import 'package:cineflow/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:cineflow/init_dependencies.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,9 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => serviceLocator<MovieBloc>()),
-        BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
+        BlocProvider(
+          create: (_) => serviceLocator<AuthBloc>()..add(AuthCheckRequest()),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'CineFlow',
       theme: AppTheme.cineFlowTheme,
-      home: const LoginPage(),
+      home: const AuthWrapper(),
     );
   }
 }

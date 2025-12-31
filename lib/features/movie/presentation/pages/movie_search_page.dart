@@ -37,13 +37,16 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
                   context,
                 ).showSnackBar(SnackBar(content: Text(state.message)));
               }
-              if (state is MovieSuccess) {
-                print(state.movieList);
-              }
             },
             builder: (context, state) {
               if (state is MovieLoading) {
                 return Center(child: CircularProgressIndicator());
+              }
+
+              if (state is MovieFailure) {
+                return Center(
+                  child: Text('Something is wrong, Please try again!'),
+                );
               }
 
               if (state is MovieSuccess) {
@@ -72,9 +75,7 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
                   ],
                 );
               }
-              return Center(
-                child: Text('Something is wrong, Please try again!'),
-              );
+              return SizedBox.shrink();
             },
           ),
         ),

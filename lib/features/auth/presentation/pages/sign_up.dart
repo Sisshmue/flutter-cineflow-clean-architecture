@@ -1,8 +1,8 @@
 import 'package:cineflow/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cineflow/features/auth/presentation/widgets/auth_field.dart';
-import 'package:cineflow/features/movie/presentation/pages/movie_search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/common/show_snack_bar.dart';
 import '../../../../core/theme/pallete.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -38,15 +38,13 @@ class _SignUpPageState extends State<SignUpPage> {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: BlocConsumer<AuthBloc, AuthState>(
-          listener: (BuildContext context, AuthState state) {
+          listener: (context, state) {
             if (state is AuthFailure) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
+              showSnackBar(context, state.message);
             }
+
             if (state is AuthSuccess) {
-              print(state.user);
-              Navigator.push(context, MovieSearchPage.route());
+              Navigator.pop(context);
             }
           },
           builder: (context, state) {
@@ -102,7 +100,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     onPressed: () {
                       if (key.currentState!.validate()) {
-                        print('Success');
+                        FocusScope.of(context).unfocus();
                         context.read<AuthBloc>().add(
                           AuthSignUp(
                             name: _nameController.text,
