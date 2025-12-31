@@ -7,6 +7,9 @@ import '../widgets/movie_search_bar.dart';
 class MovieSearchPage extends StatefulWidget {
   const MovieSearchPage({super.key});
 
+  static MaterialPageRoute<dynamic> route() =>
+      (MaterialPageRoute(builder: (context) => MovieSearchPage()));
+
   @override
   State<MovieSearchPage> createState() => _MovieSearchPageState();
 }
