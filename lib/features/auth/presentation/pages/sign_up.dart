@@ -2,7 +2,7 @@ import 'package:cineflow/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cineflow/features/auth/presentation/widgets/auth_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/common/show_snack_bar.dart';
+import '../../../../core/utils/show_snack_bar.dart';
 import '../../../../core/theme/pallete.dart';
 
 class SignUpPage extends StatefulWidget {

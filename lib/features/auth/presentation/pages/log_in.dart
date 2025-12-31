@@ -1,4 +1,3 @@
-import 'package:cineflow/core/common/show_snack_bar.dart';
 import 'package:cineflow/core/theme/pallete.dart';
 import 'package:cineflow/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cineflow/features/auth/presentation/pages/sign_up.dart';
