@@ -19,7 +19,10 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<MovieBloc>().add(GetMovieRelease());
+    final state = context.read<MovieBloc>().state;
+    if (state is! MovieSuccess) {
+      context.read<MovieBloc>().add(GetMovieRelease());
+    }
   }
 
   @override
