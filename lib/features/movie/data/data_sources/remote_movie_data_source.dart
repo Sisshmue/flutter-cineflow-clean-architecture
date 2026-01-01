@@ -8,7 +8,7 @@ abstract interface class RemoteMovieDataSource {
 class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
   @override
   Future<List<MovieModel>> getMovie({required String apiKey}) async {
-    final res = await ApiService.apiGet('/releases/?apiKey=$apiKey&limit=10');
+    final res = await ApiService.apiGet('/releases/?apiKey=$apiKey&limit=11');
     if (res['releases'] is List) {
       return res['releases']
           .map<MovieModel>((json) => MovieModel.fromJson(json))

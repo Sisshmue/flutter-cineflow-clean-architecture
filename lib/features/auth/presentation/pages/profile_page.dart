@@ -49,7 +49,6 @@ class ProfilePage extends StatelessWidget {
                       backgroundColor: Pallete.primaryRed,
                     ),
                     onPressed: () {
-                      // You'll need to add a Logout event to your AuthBloc
                       context.read<AuthBloc>().add(AuthLogoutRequested());
                     },
                     icon: const Icon(Icons.logout, color: Colors.white),
