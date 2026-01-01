@@ -11,7 +11,25 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
-  final List<Widget> widgets = [MovieSearchPage(), ProfilePage()];
+  final _movieKey = GlobalKey<MovieSearchPageState>();
+  late List<Widget> widgets;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widgets = [MovieSearchPage(key: _movieKey), const ProfilePage()];
+  }
+
+  void _onItemTapped(int index) {
+    if (_currentIndex == index && index == 0) {
+      _movieKey.currentState?.scrollToTop();
+    } else {
+      setState(() {
+        _currentIndex = index;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +37,7 @@ class _MainPageState extends State<MainPage> {
       body: IndexedStack(index: _currentIndex, children: widgets),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (index) => setState(() {
-          _currentIndex = index;
-        }),
+        onTap: _onItemTapped,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Movies'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
