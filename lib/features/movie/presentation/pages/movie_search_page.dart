@@ -76,7 +76,6 @@ class MovieSearchPageState extends State<MovieSearchPage> {
               }
 
               if (state is MovieSuccess) {
-                print(state.movieList);
                 _isFirstLoaded = false;
                 movies = state.movieList;
               }
