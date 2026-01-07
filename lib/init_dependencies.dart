@@ -9,6 +9,7 @@ import 'package:cineflow/features/movie/data/data_sources/remote_movie_data_sour
 import 'package:cineflow/features/movie/data/respository/movie_repository_impl.dart';
 import 'package:cineflow/features/movie/domain/repository/movie_repository.dart';
 import 'package:cineflow/features/movie/domain/usecases/get_released_movies.dart';
+import 'package:cineflow/features/movie/domain/usecases/search_movies.dart';
 import 'package:cineflow/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -25,40 +26,35 @@ Future<void> initDependencies() async {
 
   serviceLocator.registerLazySingleton(() => SecretsData.apiKey);
 
-  serviceLocator.registerFactory<RemoteMovieDataSource>(
-    () => RemoteMovieDataSourceImpl(),
-  );
+  //Movie
+  serviceLocator
+    ..registerFactory<RemoteMovieDataSource>(() => RemoteMovieDataSourceImpl())
+    ..registerFactory<MovieRepository>(
+      () => MovieRepositoryImpl(remoteMovieDataSource: serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetReleasedMovies(movieRepository: serviceLocator()),
+    )
+    ..registerFactory(() => SearchMovies(serviceLocator()))
+    ..registerLazySingleton(
+      () => MovieBloc(
+        getReleaseMovies: serviceLocator(),
+        apiKey: serviceLocator(),
+        searchMovies: serviceLocator(),
+      ),
+    );
 
-  serviceLocator.registerFactory<MovieRepository>(
-    () => MovieRepositoryImpl(remoteMovieDataSource: serviceLocator()),
-  );
-
-  serviceLocator.registerFactory(
-    () => GetReleasedMovies(movieRepository: serviceLocator()),
-  );
-
-  serviceLocator.registerLazySingleton(
-    () =>
-        MovieBloc(getReleaseMovies: serviceLocator(), apiKey: serviceLocator()),
-  );
-
-  serviceLocator.registerFactory<UserRemoteDataSource>(
-    () => UserRemoteDataSourceImpl(client: serviceLocator()),
-  );
-
-  serviceLocator.registerFactory<AuthRepository>(
-    () => AuthRepositoryImpl(userRemoteDataSource: serviceLocator()),
-  );
-
-  serviceLocator.registerFactory(
-    () => UserSignUp(authRepository: serviceLocator()),
-  );
-
-  serviceLocator.registerFactory(
-    () => UserLogIn(authRepository: serviceLocator()),
-  );
-
-  serviceLocator.registerLazySingleton(
-    () => AuthBloc(userSignup: serviceLocator(), userLogin: serviceLocator()),
-  );
+  //Auth
+  serviceLocator
+    ..registerFactory<UserRemoteDataSource>(
+      () => UserRemoteDataSourceImpl(client: serviceLocator()),
+    )
+    ..registerFactory<AuthRepository>(
+      () => AuthRepositoryImpl(userRemoteDataSource: serviceLocator()),
+    )
+    ..registerFactory(() => UserSignUp(authRepository: serviceLocator()))
+    ..registerFactory(() => UserLogIn(authRepository: serviceLocator()))
+    ..registerLazySingleton(
+      () => AuthBloc(userSignup: serviceLocator(), userLogin: serviceLocator()),
+    );
 }

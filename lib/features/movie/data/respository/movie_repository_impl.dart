@@ -18,4 +18,22 @@ class MovieRepositoryImpl implements MovieRepository {
       return left(Failure(message: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Movie>>> searchMovies({
+    required String apiKey,
+    required String keyWord,
+  }) async {
+    try {
+      final response = await remoteMovieDataSource.searchMovie(
+        keyWord: keyWord,
+        apiKey: apiKey,
+      );
+      print('_____________________________');
+      print(response);
+      return right(response);
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
+  }
 }

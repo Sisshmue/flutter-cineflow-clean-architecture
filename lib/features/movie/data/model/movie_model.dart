@@ -21,3 +21,25 @@ class MovieModel extends Movie {
     );
   }
 }
+
+class SearchMovieModel extends Movie {
+  SearchMovieModel({
+    required super.title,
+    required super.releaseDate,
+    required super.rating,
+    required super.id,
+    required super.type,
+    required super.posterUrl,
+  });
+
+  factory SearchMovieModel.fromJson(dynamic map) {
+    return SearchMovieModel(
+      title: map['name'] ?? '',
+      releaseDate: map['year']?.toString() ?? '',
+      rating: '',
+      id: map['id'] ?? 0,
+      type: map['tmdb_type'] ?? '',
+      posterUrl: '',
+    );
+  }
+}

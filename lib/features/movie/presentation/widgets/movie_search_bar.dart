@@ -1,5 +1,7 @@
 import 'package:cineflow/core/theme/pallete.dart';
+import 'package:cineflow/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MovieSearchBar extends StatelessWidget {
   const MovieSearchBar({super.key});
@@ -8,6 +10,12 @@ class MovieSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       style: const TextStyle(color: Colors.white),
+      onSubmitted: (value) {
+        print(value);
+        if (value.isNotEmpty && value.trim() != '') {
+          context.read<MovieBloc>().add(SearchMoviesEvent(keyWord: value));
+        }
+      },
       decoration: InputDecoration(
         filled: true,
         fillColor: Pallete.surface,
