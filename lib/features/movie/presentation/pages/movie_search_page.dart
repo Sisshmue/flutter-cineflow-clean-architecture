@@ -18,6 +18,7 @@ class MovieSearchPage extends StatefulWidget {
 
 class MovieSearchPageState extends State<MovieSearchPage> {
   final _scrollController = ScrollController();
+  final _searchController = TextEditingController();
   bool _isFirstLoaded = true;
   List<Movie> movies = [];
 
@@ -33,10 +34,12 @@ class MovieSearchPageState extends State<MovieSearchPage> {
     // TODO: implement dispose
     super.dispose();
     _scrollController.dispose();
+    _searchController.dispose();
   }
 
   void scrollToTop() {
     if (_scrollController.hasClients) {
+      _searchController.clear();
       if (_scrollController.offset == 0) {
         _isFirstLoaded = true;
         context.read<MovieBloc>().add(GetMovieRelease());
@@ -94,10 +97,12 @@ class MovieSearchPageState extends State<MovieSearchPage> {
                   child: CustomScrollView(
                     controller: _scrollController,
                     slivers: [
-                      const SliverToBoxAdapter(
+                      SliverToBoxAdapter(
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 20.0),
-                          child: MovieSearchBar(),
+                          child: MovieSearchBar(
+                            searchController: _searchController,
+                          ),
                         ),
                       ),
                       SliverGrid(

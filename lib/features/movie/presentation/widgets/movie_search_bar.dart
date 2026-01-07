@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MovieSearchBar extends StatelessWidget {
-  const MovieSearchBar({super.key});
+  final TextEditingController searchController;
+  const MovieSearchBar({super.key, required this.searchController});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: searchController,
       style: const TextStyle(color: Colors.white),
       onSubmitted: (value) {
         print(value);
