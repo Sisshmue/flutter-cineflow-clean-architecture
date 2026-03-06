@@ -16,10 +16,7 @@ class RecommendationBloc
       emit(RecommendationLoading());
       try {
         final recommendations = await _getRecommendations(
-          GetRecommendationsParam(
-            parameter: event.parameter,
-            notGenre: event.notGenre,
-          ),
+          GetRecommendationsParam(parameter: event.parameter),
         );
         recommendations.fold(
           (l) => emit(RecommendationFail(message: l.message)),

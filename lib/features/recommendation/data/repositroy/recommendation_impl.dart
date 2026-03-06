@@ -10,12 +10,10 @@ class RecommendationImpl implements RecommendationRepository {
   @override
   Future<Either<Failure, List<Recommendation>>> getRecommendation({
     required String parameter,
-    required bool notGenre,
   }) async {
     try {
       final response = await remoteDataRecommendationSource.getRecommendations(
         parameter: parameter,
-        notGenre: notGenre,
       );
       return right(response);
     } catch (e) {

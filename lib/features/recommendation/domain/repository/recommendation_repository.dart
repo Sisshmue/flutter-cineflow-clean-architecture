@@ -5,6 +5,5 @@ import 'package:fpdart/fpdart.dart';
 abstract interface class RecommendationRepository {
   Future<Either<Failure, List<Recommendation>>> getRecommendation({
     required String parameter,
-    required bool notGenre,
   });
 }

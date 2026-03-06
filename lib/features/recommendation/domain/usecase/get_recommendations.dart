@@ -16,14 +16,12 @@ class GetRecommendations
   ) async {
     return await recommendationRepository.getRecommendation(
       parameter: params.parameter,
-      notGenre: params.notGenre,
     );
   }
 }
 
 class GetRecommendationsParam {
   final String parameter;
-  final bool notGenre;
 
-  GetRecommendationsParam({required this.parameter, required this.notGenre});
+  GetRecommendationsParam({required this.parameter});
 }

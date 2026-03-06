@@ -85,7 +85,7 @@ class _RecommendationsState extends State<Recommendations> {
                                         (context, url, progress) =>
                                             CupertinoActivityIndicator(),
                                     errorWidget: (context, url, error) =>
-                                        Icon(Icons.movie),
+                                        Image.asset('assets/logo/app_logo.png'),
                                   ),
                                 ),
                               ),

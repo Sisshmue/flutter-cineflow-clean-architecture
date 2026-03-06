@@ -7,7 +7,6 @@ import '../../../../core/secrets/secrets_data.dart';
 abstract interface class RemoteDataRecommendationSource {
   Future<List<RecommendationModel>> getRecommendations({
     required String parameter,
-    required bool notGenre,
   });
 }
 
@@ -22,21 +21,10 @@ class RemoteDataRecommendationSourceImpl
   @override
   Future<List<RecommendationModel>> getRecommendations({
     required String parameter,
-    required bool notGenre,
   }) async {
     try {
-      final prompt = notGenre
-          ? '''
-      Generate a list of 5 movie recommendations according to this user expression: $parameter.
-      Return a JSON object with a key "movies" containing an array of objects.
-      Each object must have:
-      - "id": a unique string ID
-      - "title": the movie name
-      - "description": a short reason why it matches the genre
-      - "image": the actual working network image link for the movie poster
-      - "year": released date of the movie
-    '''
-          : '''
+      final prompt =
+          '''
       Generate a list of 5 movie recommendations for the genre: $parameter.
       Return a JSON object with a key "movies" containing an array of objects.
       Each object must have:

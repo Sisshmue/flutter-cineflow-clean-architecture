@@ -9,13 +9,13 @@ class RecommendationModel extends Recommendation {
     required super.year,
   });
 
-  factory RecommendationModel.fromJson(dynamic map) {
+  factory RecommendationModel.fromJson(dynamic json) {
     return RecommendationModel(
-      id: map['id'] ?? '',
-      title: map['title'] ?? '',
-      description: map['description'] ?? '',
-      image: map['image'] ?? '',
-      year: map['year'] ?? '',
+      id: json['id'].toString(),
+      title: json['title'].toString(),
+      description: json['description'].toString(),
+      image: json['image'].toString(),
+      year: json['year'].toString(),
     );
   }
 }
