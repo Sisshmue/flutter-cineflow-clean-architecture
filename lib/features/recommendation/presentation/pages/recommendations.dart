@@ -24,18 +24,31 @@ class _RecommendationsState extends State<Recommendations> {
   );
   List<dynamic> recommendations = [];
   bool isSearching = false;
+  bool showChips = false;
+  bool notGenre = false;
 
-  Future<void> getMovieList(String genre) async {
+  Future<void> getMovieList(String parameter) async {
     try {
-      final prompt =
-          '''
-      Generate a list of 5 movie recommendations for the genre: $genre.
+      final prompt = notGenre
+          ? '''
+      Generate a list of 5 movie recommendations according to this user expression: $parameter.
+      Return a JSON object with a key "movies" containing an array of objects.
+      Each object must have:
+      - "id": a unique string ID
+      - "title": the movie name
+      - "description": a short reason why it matches the genre
+      - "image": the actual working network image link for the movie poster
+      - "year": released date of the movie
+    '''
+          : '''
+      Generate a list of 5 movie recommendations for the genre: $parameter.
       Return a JSON object with a key "movies" containing an array of objects.
       Each object must have:
       - "id": a unique string ID
       - "title": the movie name
       - "description": a short reason why it matches the genre
       - "image": the network image link of the movie
+      - "year": released date of the movie
     ''';
 
       final response = await model.generateContent([Content.text(prompt)]);
@@ -61,12 +74,11 @@ class _RecommendationsState extends State<Recommendations> {
     }
   }
 
-  bool showChips = false;
-
   void _sendMessage(String text) async {
     if (text.trim().isEmpty) return;
     setState(() {
       isSearching = true;
+      showChips = false;
     });
     await getMovieList(text);
     _controller.clear();
@@ -132,7 +144,7 @@ class _RecommendationsState extends State<Recommendations> {
                               Expanded(
                                 child: ListTile(
                                   title: Text(
-                                    movie['title'] ?? 'Unknown Title',
+                                    "${movie['title'] ?? 'Unknown Title'} ( ${movie['year'] ?? 'Unknown'} )",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),

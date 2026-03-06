@@ -6,5 +6,5 @@ class SecretsData {
   static String supabaseAnonKey =
       'sb_publishable_4mVcfPXoKMXgfvaY0c1PIw_1KE_wpFZ';
 
-  static String gemnini_key = 'AIzaSyB4qaIesagxycYGi0s1mN5XRqs9o3U0G4I';
+  static String gemnini_key = 'AIzaSyA2zLiwzDCGYysjQTU4xm0wQYCTV_YxAew';
 }
