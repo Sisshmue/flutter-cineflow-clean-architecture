@@ -1,5 +1,6 @@
 import 'package:cineflow/features/auth/presentation/pages/profile_page.dart';
 import 'package:cineflow/features/movie/presentation/pages/movie_search_page.dart';
+import 'package:cineflow/features/recommendation/presentation/pages/recommendations.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -10,7 +11,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   final _movieKey = GlobalKey<MovieSearchPageState>();
   late List<Widget> widgets;
 
@@ -18,7 +19,11 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widgets = [MovieSearchPage(key: _movieKey), const ProfilePage()];
+    widgets = [
+      const Recommendations(),
+      MovieSearchPage(key: _movieKey),
+      const ProfilePage(),
+    ];
   }
 
   void _onItemTapped(int index) {
@@ -39,6 +44,10 @@ class _MainPageState extends State<MainPage> {
         currentIndex: _currentIndex,
         onTap: _onItemTapped,
         items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.military_tech_outlined),
+            label: 'Recommendation',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Movies'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],

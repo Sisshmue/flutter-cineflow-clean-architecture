@@ -73,9 +73,7 @@ class MovieSearchPageState extends State<MovieSearchPage> {
               }
 
               if (state is MovieFailure) {
-                return Center(
-                  child: Text('Something is wrong, Please try again!'),
-                );
+                return Center(child: Text(state.message));
               }
 
               if (state is MovieSuccess) {
@@ -89,10 +87,10 @@ class MovieSearchPageState extends State<MovieSearchPage> {
                   backgroundColor: Pallete.surface,
                   onRefresh: () async {
                     context.read<MovieBloc>().add(GetMovieRelease());
-
                     await context.read<MovieBloc>().stream.firstWhere(
                       (state) => state is MovieSuccess || state is MovieFailure,
                     );
+                    _searchController.clear();
                   },
                   child: CustomScrollView(
                     controller: _scrollController,

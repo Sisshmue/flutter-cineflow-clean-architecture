@@ -15,9 +15,9 @@ class MovieModel extends Movie {
       title: map['title'] ?? "",
       releaseDate: map['source_release_date'] ?? "",
       rating: "",
-      id: map['id'],
-      type: map['type'],
-      posterUrl: map['poster_url'],
+      id: map['id'] ?? '',
+      type: map['type'] ?? '',
+      posterUrl: map['poster_url'] ?? '',
     );
   }
 }

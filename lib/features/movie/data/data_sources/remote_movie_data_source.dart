@@ -1,10 +1,5 @@
-import 'dart:convert';
-import 'dart:math';
-
-import 'package:cineflow/core/secrets/secrets_data.dart';
 import 'package:cineflow/core/services/api_service.dart';
 import 'package:cineflow/features/movie/data/model/movie_model.dart';
-import 'package:http/http.dart' as http;
 
 abstract interface class RemoteMovieDataSource {
   Future<List<MovieModel>> getMovie({required String apiKey});
