@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cineflow/core/secrets/secrets_data.dart';
+import 'package:cineflow/features/recommendation/presentation/bloc/recommendation_bloc.dart';
 import 'package:cineflow/features/recommendation/presentation/widgets/genre_chip.dart';
 import 'package:cineflow/features/recommendation/presentation/widgets/recommendations_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Recommendations extends StatefulWidget {
   const Recommendations({super.key});
@@ -16,75 +15,17 @@ class Recommendations extends StatefulWidget {
 
 class _RecommendationsState extends State<Recommendations> {
   final TextEditingController _controller = TextEditingController();
-  static final String apiKey = SecretsData.gemnini_key;
-  final model = GenerativeModel(
-    model: 'gemini-2.5-flash',
-    apiKey: apiKey,
-    generationConfig: GenerationConfig(responseMimeType: 'application/json'),
-  );
-  List<dynamic> recommendations = [];
-  bool isSearching = false;
   bool showChips = false;
-  bool notGenre = false;
-
-  Future<void> getMovieList(String parameter) async {
-    try {
-      final prompt = notGenre
-          ? '''
-      Generate a list of 5 movie recommendations according to this user expression: $parameter.
-      Return a JSON object with a key "movies" containing an array of objects.
-      Each object must have:
-      - "id": a unique string ID
-      - "title": the movie name
-      - "description": a short reason why it matches the genre
-      - "image": the actual working network image link for the movie poster
-      - "year": released date of the movie
-    '''
-          : '''
-      Generate a list of 5 movie recommendations for the genre: $parameter.
-      Return a JSON object with a key "movies" containing an array of objects.
-      Each object must have:
-      - "id": a unique string ID
-      - "title": the movie name
-      - "description": a short reason why it matches the genre
-      - "image": the network image link of the movie
-      - "year": released date of the movie
-    ''';
-
-      final response = await model.generateContent([Content.text(prompt)]);
-
-      // Clean potential markdown formatting from the response
-      String rawJson = response.text!
-          .replaceAll('```json', '')
-          .replaceAll('```', '')
-          .trim();
-
-      final Map<String, dynamic> data = jsonDecode(rawJson);
-
-      setState(() {
-        recommendations = data['movies'];
-        isSearching = false; // Turn off the spinner
-      });
-    } catch (e) {
-      debugPrint("Error: $e");
-      setState(() {
-        isSearching = false;
-      });
-      // Optional: Show a SnackBar error here
-    }
-  }
 
   void _sendMessage(String text) async {
     if (text.trim().isEmpty) return;
-    setState(() {
-      isSearching = true;
-      showChips = false;
-    });
-    await getMovieList(text);
     _controller.clear();
     setState(() {
-      isSearching = false;
+      showChips = false;
     });
+    context.read<RecommendationBloc>().add(
+      GetRecommendationEvent(parameter: text, notGenre: false),
+    );
   }
 
   @override
@@ -108,17 +49,24 @@ class _RecommendationsState extends State<Recommendations> {
         child: Column(
           children: [
             Expanded(
-              child: isSearching
-                  ? const Center(
+              child: BlocConsumer<RecommendationBloc, RecommendationState>(
+                builder: (context, state) {
+                  if (state is RecommendationInitial) {
+                    return const Center(
+                      child: Text('Type a genre to get started!'),
+                    );
+                  }
+                  if (state is RecommendationLoading) {
+                    return const Center(
                       child: CircularProgressIndicator(color: Colors.redAccent),
-                    )
-                  : recommendations.isEmpty
-                  ? const Center(child: Text('Type a genre to get started!'))
-                  : ListView.builder(
+                    );
+                  }
+                  if (state is RecommendationSuccess) {
+                    return ListView.builder(
                       padding: const EdgeInsets.all(12),
-                      itemCount: recommendations.length,
+                      itemCount: state.recomList.length,
                       itemBuilder: (context, index) {
-                        final movie = recommendations[index];
+                        final movie = state.recomList[index];
                         return Card(
                           elevation: 2,
                           margin: const EdgeInsets.symmetric(vertical: 8),
@@ -132,7 +80,7 @@ class _RecommendationsState extends State<Recommendations> {
                                     12,
                                   ),
                                   child: CachedNetworkImage(
-                                    imageUrl: movie['image'],
+                                    imageUrl: movie.image,
                                     progressIndicatorBuilder:
                                         (context, url, progress) =>
                                             CupertinoActivityIndicator(),
@@ -144,19 +92,30 @@ class _RecommendationsState extends State<Recommendations> {
                               Expanded(
                                 child: ListTile(
                                   title: Text(
-                                    "${movie['title'] ?? 'Unknown Title'} ( ${movie['year'] ?? 'Unknown'} )",
+                                    "${movie.title} (${movie.year})",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  subtitle: Text(movie['description'] ?? ''),
+                                  subtitle: Text(movie.description),
                                 ),
                               ),
                             ],
                           ),
                         );
                       },
-                    ),
+                    );
+                  }
+                  return SizedBox.shrink();
+                },
+                listener: (context, state) {
+                  if (state is RecommendationFail) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                  }
+                },
+              ),
             ),
             if (showChips) GenreChip(sendMessage: _sendMessage),
             RecommendationsInput(

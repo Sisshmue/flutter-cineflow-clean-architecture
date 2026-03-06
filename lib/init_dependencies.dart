@@ -11,6 +11,11 @@ import 'package:cineflow/features/movie/domain/repository/movie_repository.dart'
 import 'package:cineflow/features/movie/domain/usecases/get_released_movies.dart';
 import 'package:cineflow/features/movie/domain/usecases/search_movies.dart';
 import 'package:cineflow/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:cineflow/features/recommendation/data/data_sources/remote_data_recommendation_source.dart';
+import 'package:cineflow/features/recommendation/data/repositroy/recommendation_impl.dart';
+import 'package:cineflow/features/recommendation/domain/repository/recommendation_repository.dart';
+import 'package:cineflow/features/recommendation/domain/usecase/get_recommendations.dart';
+import 'package:cineflow/features/recommendation/presentation/bloc/recommendation_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -56,5 +61,21 @@ Future<void> initDependencies() async {
     ..registerFactory(() => UserLogIn(authRepository: serviceLocator()))
     ..registerLazySingleton(
       () => AuthBloc(userSignup: serviceLocator(), userLogin: serviceLocator()),
+    );
+
+  //recommendation
+  serviceLocator
+    ..registerFactory<RemoteDataRecommendationSource>(
+      () => RemoteDataRecommendationSourceImpl(),
+    )
+    ..registerFactory<RecommendationRepository>(
+      () =>
+          RecommendationImpl(remoteDataRecommendationSource: serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetRecommendations(recommendationRepository: serviceLocator()),
+    )
+    ..registerLazySingleton(
+      () => (RecommendationBloc(getRecommendations: serviceLocator())),
     );
 }

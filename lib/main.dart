@@ -2,6 +2,10 @@ import 'package:cineflow/core/theme/app_theme.dart';
 import 'package:cineflow/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cineflow/features/auth/presentation/widgets/auth_wrapper.dart';
 import 'package:cineflow/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:cineflow/features/recommendation/data/data_sources/remote_data_recommendation_source.dart';
+import 'package:cineflow/features/recommendation/data/repositroy/recommendation_impl.dart';
+import 'package:cineflow/features/recommendation/domain/usecase/get_recommendations.dart';
+import 'package:cineflow/features/recommendation/presentation/bloc/recommendation_bloc.dart';
 import 'package:cineflow/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +20,7 @@ void main() async {
         BlocProvider(
           create: (_) => serviceLocator<AuthBloc>()..add(AuthCheckRequest()),
         ),
+        BlocProvider(create: (_) => serviceLocator<RecommendationBloc>()),
       ],
       child: const MyApp(),
     ),
