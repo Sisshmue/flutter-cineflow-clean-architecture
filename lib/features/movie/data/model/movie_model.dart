@@ -36,12 +36,14 @@ class SearchMovieModel extends Movie {
 
   factory SearchMovieModel.fromJson(dynamic map) {
     return SearchMovieModel(
-      title: map['name'] ?? '',
-      releaseDate: map['year']?.toString() ?? '',
-      rating: '',
+      title: map['original_title'] ?? '',
+      releaseDate: map['release_date']?.toString() ?? '',
+      rating: "${map['vote_average']} (${map['vote_count']})",
       id: map['id'] ?? 0,
-      type: map['tmdb_type'] ?? '',
-      posterUrl: '',
+      type: 'movie',
+      posterUrl: map['poster_path'] != null
+          ? 'https://image.tmdb.org/t/p/w500${map['poster_path']}'
+          : '',
     );
   }
 }

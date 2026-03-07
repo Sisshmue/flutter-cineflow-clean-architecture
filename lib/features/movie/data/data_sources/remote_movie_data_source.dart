@@ -28,23 +28,24 @@ class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
     required String keyWord,
     required String apiKey,
   }) async {
-    final res = await ApiService.apiGet(
-      '/search/?apiKey=$apiKey&search_field=name&search_value=$keyWord',
+    final url = Uri(
+      path: '/search/movie',
+      queryParameters: {
+        'query': keyWord,
+        'include_adult': 'true',
+        'language': 'en',
+        'page': '1',
+      },
     );
 
-    print(res);
-    print(res['title_results'][0]);
-    if (res['title_results'] is List && res['title_results'].isNotEmpty) {
-      print(
-        res['title_results']
-            .map<SearchMovieModel>((json) => SearchMovieModel.fromJson(json))
-            .toList(),
-      );
-      return res['title_results']
+    final res = await ApiService.apiGet(url.toString());
+
+    if (res['results'] is List && res['results'].isNotEmpty) {
+      return res['results']
           .map<SearchMovieModel>((json) => SearchMovieModel.fromJson(json))
           .toList();
     } else {
-      throw res['statusMessage'];
+      throw 'Cannot search the movies related to $keyWord';
     }
   }
 }
