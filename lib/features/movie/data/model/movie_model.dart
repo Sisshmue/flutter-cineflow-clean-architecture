@@ -12,12 +12,14 @@ class MovieModel extends Movie {
 
   factory MovieModel.fromJson(dynamic map) {
     return MovieModel(
-      title: map['title'] ?? "",
-      releaseDate: map['source_release_date'] ?? "",
-      rating: "",
+      title: map['original_title'] ?? "",
+      releaseDate: map['release_date'] ?? "",
+      rating: "${map['vote_average']}(${map['vote_count']})",
       id: map['id'] ?? '',
-      type: map['type'] ?? '',
-      posterUrl: map['poster_url'] ?? '',
+      type: 'movie',
+      posterUrl: map['poster_path'] != null
+          ? 'https://image.tmdb.org/t/p/w500${map['poster_path']}'
+          : '',
     );
   }
 }

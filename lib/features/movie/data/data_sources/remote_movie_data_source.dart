@@ -12,9 +12,9 @@ abstract interface class RemoteMovieDataSource {
 class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
   @override
   Future<List<MovieModel>> getMovie({required String apiKey}) async {
-    final res = await ApiService.apiGet('/releases/?apiKey=$apiKey&limit=11');
-    if (res['releases'] is List) {
-      return res['releases']
+    final res = await ApiService.apiGet('/movie/popular?page=1');
+    if (res['results'] is List) {
+      return res['results']
           .map<MovieModel>((json) => MovieModel.fromJson(json))
           .toList();
     } else {
