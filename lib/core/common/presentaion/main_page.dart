@@ -27,7 +27,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _onItemTapped(int index) {
-    if (_currentIndex == index && index == 0) {
+    if (_currentIndex == index && index == 1) {
       _movieKey.currentState?.scrollToTop();
     } else {
       setState(() {

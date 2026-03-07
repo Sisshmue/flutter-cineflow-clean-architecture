@@ -12,6 +12,7 @@ abstract interface class RemoteMovieDataSource {
 class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
   @override
   Future<List<MovieModel>> getMovie({required String apiKey}) async {
+    print('Its actually loading the movies');
     final res = await ApiService.apiGet('/movie/popular?page=1');
     if (res['results'] is List) {
       return res['results']
