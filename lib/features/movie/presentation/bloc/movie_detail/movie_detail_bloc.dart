@@ -1,4 +1,3 @@
-import 'package:cineflow/core/error/failure.dart';
 import 'package:cineflow/features/movie/domain/entity/movie_detail.dart';
 import 'package:cineflow/features/movie/domain/usecases/get_movie_detail.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
