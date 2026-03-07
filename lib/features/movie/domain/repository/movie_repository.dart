@@ -13,7 +13,5 @@ abstract interface class MovieRepository {
     required String keyWord,
   });
 
-  Future<Either<Failure, MovieDetail>> getMovieDetail({
-    required String movieId,
-  });
+  Future<Either<Failure, MovieDetail>> getMovieDetail({required int movieId});
 }

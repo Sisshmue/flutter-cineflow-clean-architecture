@@ -4,11 +4,13 @@ class MovieDetail {
   final List<String> genres;
   final String popularity;
   final String status;
+  final String posterUrl;
   MovieDetail({
     required this.title,
     required this.description,
     required this.genres,
     required this.popularity,
     required this.status,
+    required this.posterUrl,
   });
 }

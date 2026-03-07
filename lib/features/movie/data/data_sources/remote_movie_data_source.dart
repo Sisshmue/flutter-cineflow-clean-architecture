@@ -10,7 +10,7 @@ abstract interface class RemoteMovieDataSource {
     required String keyWord,
     required String apiKey,
   });
-  Future<MovieDetailModel> getMovieDetail({required String movieId});
+  Future<MovieDetailModel> getMovieDetail({required int movieId});
 }
 
 class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
@@ -38,7 +38,7 @@ class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
         'query': keyWord,
         'include_adult': 'true',
         'language': 'en',
-        'page': 1,
+        'page': '1',
       },
     );
 
@@ -54,7 +54,7 @@ class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
   }
 
   @override
-  Future<MovieDetailModel> getMovieDetail({required String movieId}) async {
+  Future<MovieDetailModel> getMovieDetail({required int movieId}) async {
     final url = Uri(path: '/movie/$movieId');
     final res = await ApiService.apiGet(url.toString());
     return MovieDetailModel.fromJson(res);

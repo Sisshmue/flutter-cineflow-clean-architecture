@@ -7,6 +7,7 @@ class MovieDetailModel extends MovieDetail {
     required super.genres,
     required super.popularity,
     required super.status,
+    required super.posterUrl,
   });
 
   factory MovieDetailModel.fromJson(dynamic json) {
@@ -18,6 +19,7 @@ class MovieDetailModel extends MovieDetail {
           .toList(),
       popularity: json['popularity'].toString(),
       status: json['status'],
+      posterUrl: 'https://image.tmdb.org/t/p/w500/${json['poster_path']}',
     );
   }
 }

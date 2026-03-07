@@ -14,6 +14,6 @@ class GetMovieDetail implements UseCase<MovieDetail, GetMovieDetailParams> {
 }
 
 class GetMovieDetailParams {
-  final String movieId;
+  final int movieId;
   GetMovieDetailParams({required this.movieId});
 }

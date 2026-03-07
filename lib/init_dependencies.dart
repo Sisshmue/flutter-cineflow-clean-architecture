@@ -8,9 +8,11 @@ import 'package:cineflow/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cineflow/features/movie/data/data_sources/remote_movie_data_source.dart';
 import 'package:cineflow/features/movie/data/respository/movie_repository_impl.dart';
 import 'package:cineflow/features/movie/domain/repository/movie_repository.dart';
+import 'package:cineflow/features/movie/domain/usecases/get_movie_detail.dart';
 import 'package:cineflow/features/movie/domain/usecases/get_released_movies.dart';
 import 'package:cineflow/features/movie/domain/usecases/search_movies.dart';
 import 'package:cineflow/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:cineflow/features/movie/presentation/bloc/movie_detail/movie_detail_bloc.dart';
 import 'package:cineflow/features/recommendation/data/data_sources/remote_data_recommendation_source.dart';
 import 'package:cineflow/features/recommendation/data/repositroy/recommendation_impl.dart';
 import 'package:cineflow/features/recommendation/domain/repository/recommendation_repository.dart';
@@ -61,6 +63,15 @@ Future<void> initDependencies() async {
     ..registerFactory(() => UserLogIn(authRepository: serviceLocator()))
     ..registerLazySingleton(
       () => AuthBloc(userSignup: serviceLocator(), userLogin: serviceLocator()),
+    );
+
+  //movie detail
+  serviceLocator
+    ..registerFactory<GetMovieDetail>(
+      () => GetMovieDetail(movieRepository: serviceLocator()),
+    )
+    ..registerLazySingleton(
+      () => (MovieDetailBloc(getMovieDetail: serviceLocator())),
     );
 
   //recommendation
