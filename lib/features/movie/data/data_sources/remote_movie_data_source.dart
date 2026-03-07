@@ -1,5 +1,8 @@
 import 'package:cineflow/core/services/api_service.dart';
+import 'package:cineflow/features/movie/data/model/movie_detail_model.dart';
 import 'package:cineflow/features/movie/data/model/movie_model.dart';
+import '../../domain/entity/movie.dart';
+import '../../domain/entity/movie_detail.dart';
 
 abstract interface class RemoteMovieDataSource {
   Future<List<MovieModel>> getMovie({required String apiKey});
@@ -7,6 +10,7 @@ abstract interface class RemoteMovieDataSource {
     required String keyWord,
     required String apiKey,
   });
+  Future<MovieDetailModel> getMovieDetail({required String movieId});
 }
 
 class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
@@ -47,5 +51,12 @@ class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
     } else {
       throw 'Cannot search the movies related to $keyWord';
     }
+  }
+
+  @override
+  Future<MovieDetailModel> getMovieDetail({required String movieId}) async {
+    final url = Uri(path: '/movie/$movieId');
+    final res = await ApiService.apiGet(url.toString());
+    return MovieDetailModel.fromJson(res);
   }
 }

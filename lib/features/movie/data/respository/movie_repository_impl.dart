@@ -1,6 +1,7 @@
 import 'package:cineflow/core/error/failure.dart';
 import 'package:cineflow/features/movie/data/data_sources/remote_movie_data_source.dart';
 import 'package:cineflow/features/movie/domain/entity/movie.dart';
+import 'package:cineflow/features/movie/domain/entity/movie_detail.dart';
 import 'package:cineflow/features/movie/domain/repository/movie_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -29,8 +30,20 @@ class MovieRepositoryImpl implements MovieRepository {
         keyWord: keyWord,
         apiKey: apiKey,
       );
-      print('_____________________________');
-      print(response);
+      return right(response);
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, MovieDetail>> getMovieDetail({
+    required String movieId,
+  }) async {
+    try {
+      final response = await remoteMovieDataSource.getMovieDetail(
+        movieId: movieId,
+      );
       return right(response);
     } catch (e) {
       return left(Failure(message: e.toString()));

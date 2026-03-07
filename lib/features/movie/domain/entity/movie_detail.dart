@@ -1,0 +1,14 @@
+class MovieDetail {
+  final String title;
+  final String description;
+  final List<String> genres;
+  final String popularity;
+  final String status;
+  MovieDetail({
+    required this.title,
+    required this.description,
+    required this.genres,
+    required this.popularity,
+    required this.status,
+  });
+}
