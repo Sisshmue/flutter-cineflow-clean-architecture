@@ -34,7 +34,7 @@ class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
         'query': keyWord,
         'include_adult': 'true',
         'language': 'en',
-        'page': '1',
+        'page': 1,
       },
     );
 

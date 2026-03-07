@@ -73,7 +73,22 @@ class MovieSearchPageState extends State<MovieSearchPage> {
               }
 
               if (state is MovieFailure) {
-                return Center(child: Text(state.message));
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(state.message),
+                      SizedBox(height: 20),
+                      TextButton(
+                        onPressed: () {
+                          _searchController.clear();
+                          context.read<MovieBloc>().add(GetMovieRelease());
+                        },
+                        child: Text('Retry'),
+                      ),
+                    ],
+                  ),
+                );
               }
 
               if (state is MovieSuccess) {
