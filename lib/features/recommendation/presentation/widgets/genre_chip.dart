@@ -2,38 +2,48 @@ import 'package:flutter/material.dart';
 
 class GenreChip extends StatelessWidget {
   final void Function(String text) sendMessage;
+
   const GenreChip({super.key, required this.sendMessage});
 
   @override
   Widget build(BuildContext context) {
-    final List<String> _genres = [
+    final genres = [
       'Action',
       'Sci-Fi',
       'Comedy',
       'Horror',
       'Drama',
+      'Thriller',
+      'Adventure',
     ];
-    return Container(
-      height: 50,
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: ListView.builder(
+
+    return SizedBox(
+      height: 48,
+      child: ListView.separated(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        itemCount: _genres.length,
+        itemCount: genres.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: ActionChip(
-              label: Text(_genres[index]),
-              backgroundColor: Colors.blueAccent.withOpacity(0.1),
-              labelStyle: const TextStyle(
-                color: Colors.blueAccent,
-                fontWeight: FontWeight.bold,
+          return GestureDetector(
+            onTap: () => sendMessage(genres[index]),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: const Color(0xff1f1f1f),
+                border: Border.all(color: Colors.white10),
               ),
-              shape: StadiumBorder(
-                side: BorderSide(color: Colors.blueAccent.withOpacity(0.2)),
+              child: Center(
+                child: Text(
+                  genres[index],
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white70,
+                  ),
+                ),
               ),
-              onPressed: () => sendMessage(_genres[index]),
             ),
           );
         },

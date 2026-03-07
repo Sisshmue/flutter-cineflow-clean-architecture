@@ -1,10 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cineflow/features/recommendation/presentation/bloc/recommendation_bloc.dart';
 import 'package:cineflow/features/recommendation/presentation/widgets/genre_chip.dart';
 import 'package:cineflow/features/recommendation/presentation/widgets/recommendations_input.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../widgets/recommendation_card.dart';
+import '../widgets/recommendation_loading.dart';
 
 class Recommendations extends StatefulWidget {
   const Recommendations({super.key});
@@ -57,51 +58,20 @@ class _RecommendationsState extends State<Recommendations> {
                     );
                   }
                   if (state is RecommendationLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(color: Colors.redAccent),
-                    );
+                    return RecommendationLoadingWidget();
                   }
+
                   if (state is RecommendationSuccess) {
                     return ListView.builder(
                       padding: const EdgeInsets.all(12),
                       itemCount: state.recomList.length,
                       itemBuilder: (context, index) {
                         final movie = state.recomList[index];
-                        return Card(
-                          elevation: 2,
-                          margin: const EdgeInsets.symmetric(vertical: 8),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 100,
-                                height: 100,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadiusGeometry.circular(
-                                    12,
-                                  ),
-                                  child: CachedNetworkImage(
-                                    imageUrl: movie.image,
-                                    progressIndicatorBuilder:
-                                        (context, url, progress) =>
-                                            CupertinoActivityIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        Image.asset('assets/logo/app_logo.png'),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: ListTile(
-                                  title: Text(
-                                    "${movie.title} (${movie.year})",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  subtitle: Text(movie.description),
-                                ),
-                              ),
-                            ],
-                          ),
+
+                        return RecommendationCard(
+                          title: movie.title,
+                          year: movie.year,
+                          description: movie.description,
                         );
                       },
                     );
