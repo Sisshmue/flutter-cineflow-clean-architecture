@@ -17,7 +17,7 @@ class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
   @override
   Future<List<MovieModel>> getMovie({required String apiKey}) async {
     print('Its actually loading the movies');
-    final res = await ApiService.apiGet('/movie/popular?page=1');
+    final res = await ApiService.apiGet('/trending/all/day');
     if (res['results'] is List) {
       return res['results']
           .map<MovieModel>((json) => MovieModel.fromJson(json))
@@ -33,7 +33,7 @@ class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
     required String apiKey,
   }) async {
     final url = Uri(
-      path: '/search/movie',
+      path: '/search/multi',
       queryParameters: {
         'query': keyWord,
         'include_adult': 'true',

@@ -12,11 +12,13 @@ class MovieModel extends Movie {
 
   factory MovieModel.fromJson(dynamic map) {
     return MovieModel(
-      title: map['original_title'] ?? "",
-      releaseDate: map['release_date'] ?? "",
+      title: map['media_type'] == 'tv' ? map['name'] : map['title'] ?? "",
+      releaseDate: map['media_type'] == 'tv'
+          ? map['first_air_date']
+          : map['release_date'] ?? "",
       rating: "${map['vote_average']}(${map['vote_count']})",
       id: map['id'] ?? '',
-      type: 'movie',
+      type: map['media_type'],
       posterUrl: map['poster_path'] != null
           ? 'https://image.tmdb.org/t/p/w500${map['poster_path']}'
           : '',
@@ -36,11 +38,13 @@ class SearchMovieModel extends Movie {
 
   factory SearchMovieModel.fromJson(dynamic map) {
     return SearchMovieModel(
-      title: map['original_title'] ?? '',
-      releaseDate: map['release_date']?.toString() ?? '',
+      title: map['media_type'] == 'tv' ? map['name'] : map['title'] ?? "",
+      releaseDate: map['media_type'] == 'tv'
+          ? map['first_air_date']
+          : map['release_date'] ?? "",
       rating: "${map['vote_average']} (${map['vote_count']})",
       id: map['id'] ?? 0,
-      type: 'movie',
+      type: map['media_type'],
       posterUrl: map['poster_path'] != null
           ? 'https://image.tmdb.org/t/p/w500${map['poster_path']}'
           : '',
