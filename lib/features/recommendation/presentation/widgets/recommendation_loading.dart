@@ -9,7 +9,7 @@ class RecommendationLoadingWidget extends StatelessWidget {
     return ListView.builder(
       padding: const EdgeInsets.all(12),
       itemCount: 6,
-      itemBuilder: (_, __) {
+      itemBuilder: (_, _) {
         return Shimmer.fromColors(
           baseColor: Colors.grey.shade800,
           highlightColor: Colors.grey.shade600,
