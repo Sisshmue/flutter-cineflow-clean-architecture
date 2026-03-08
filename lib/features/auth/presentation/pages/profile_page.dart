@@ -3,6 +3,8 @@ import 'package:cineflow/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../movie/presentation/pages/save_movies.dart';
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -42,6 +44,29 @@ class ProfilePage extends StatelessWidget {
                     style: const TextStyle(color: Pallete.textSecondary),
                   ),
                   const SizedBox(height: 40),
+
+                  ListTile(
+                    leading: const Icon(
+                      Icons.bookmark,
+                      color: Pallete.primaryRed,
+                    ),
+                    title: const Text(
+                      "Saved Movies",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white70,
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SavedMoviesPage(),
+                        ),
+                      );
+                    },
+                  ),
 
                   // Logout Button
                   ElevatedButton.icon(

@@ -5,6 +5,7 @@ class MovieDetail {
   final String popularity;
   final String status;
   final String posterUrl;
+  final String releaseDate;
   MovieDetail({
     required this.title,
     required this.description,
@@ -12,5 +13,6 @@ class MovieDetail {
     required this.popularity,
     required this.status,
     required this.posterUrl,
+    required this.releaseDate,
   });
 }

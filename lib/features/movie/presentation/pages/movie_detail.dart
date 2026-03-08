@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../data/model/movie_model.dart';
+import '../bloc/movie/movie_bloc.dart';
 import '../bloc/movie_detail/movie_detail_bloc.dart';
 
 class MovieDetailPage extends StatefulWidget {
@@ -18,6 +20,9 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
     super.initState();
     context.read<MovieDetailBloc>().add(
       GetMovieDetailEvent(movieId: widget.movieId),
+    );
+    context.read<MovieBloc>().add(
+      CheckMovieSavedStatusEvent(movieId: widget.movieId),
     );
   }
 
@@ -107,6 +112,78 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                                 ),
                               )
                               .toList(),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        /// Watch Later Button
+                        BlocBuilder<MovieBloc, MovieState>(
+                          builder: (context, state) {
+                            bool isSaved = false;
+
+                            if (state is MovieSavedStatusState) {
+                              isSaved = state.isSaved;
+                            }
+                            return SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: isSaved
+                                      ? Colors.green
+                                      : Colors.redAccent,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 14,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  final movieModel = MovieModel(
+                                    id: widget.movieId,
+                                    title: movie.title,
+                                    releaseDate: movie.releaseDate,
+                                    rating: movie.popularity,
+                                    type: movie.status,
+                                    posterUrl: movie.posterUrl,
+                                  );
+
+                                  if (!isSaved) {
+                                    context.read<MovieBloc>().add(
+                                      SaveWatchLaterEvent(movie: movieModel),
+                                    );
+                                  } else {
+                                    context.read<MovieBloc>().add(
+                                      RemoveWatchLaterEvent(
+                                        movieId: widget.movieId,
+                                      ),
+                                    );
+                                  }
+
+                                  context.read<MovieBloc>().add(
+                                    CheckMovieSavedStatusEvent(
+                                      movieId: widget.movieId,
+                                    ),
+                                  );
+                                },
+                                icon: isSaved
+                                    ? Icon(Icons.bookmark, color: Colors.white)
+                                    : Icon(
+                                        Icons.bookmark_add,
+                                        color: Colors.white,
+                                      ),
+                                label: Text(
+                                  isSaved
+                                      ? "Added to Watch Later"
+                                      : "Add to Watch Later",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
 
                         const SizedBox(height: 20),

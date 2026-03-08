@@ -17,10 +17,10 @@ import 'features/movie/data/model/movie_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initDependencies();
   await Hive.initFlutter();
   Hive.registerAdapter(MovieModelAdapter());
   await Hive.openBox<MovieModel>('watch_later_movies');
+  await initDependencies();
   runApp(
     MultiBlocProvider(
       providers: [
