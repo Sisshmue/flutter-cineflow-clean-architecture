@@ -6,5 +6,6 @@ class GetMovieRelease extends MovieEvent {}
 
 class SearchMoviesEvent extends MovieEvent {
   final String keyWord;
-  SearchMoviesEvent({required this.keyWord});
+  bool fromRecommendation;
+  SearchMoviesEvent({required this.keyWord, this.fromRecommendation = false});
 }

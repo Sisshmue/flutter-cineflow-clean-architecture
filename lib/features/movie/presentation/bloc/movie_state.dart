@@ -8,8 +8,9 @@ final class MovieLoading extends MovieState {}
 
 final class MovieSuccess extends MovieState {
   final List<Movie> movieList;
+  bool fromRecommendation;
 
-  MovieSuccess({required this.movieList});
+  MovieSuccess({required this.movieList, this.fromRecommendation = false});
 }
 
 final class MovieFailure extends MovieState {

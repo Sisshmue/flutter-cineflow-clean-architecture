@@ -91,7 +91,7 @@ class MovieSearchPageState extends State<MovieSearchPage> {
                 );
               }
 
-              if (state is MovieSuccess) {
+              if (state is MovieSuccess && state.fromRecommendation == false) {
                 _isFirstLoaded = false;
                 movies = state.movieList;
               }

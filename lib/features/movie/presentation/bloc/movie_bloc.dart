@@ -25,7 +25,8 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         );
         movies.fold(
           (failure) => emit(MovieFailure(message: failure.message)),
-          (movies) => emit(MovieSuccess(movieList: movies)),
+          (movies) =>
+              emit(MovieSuccess(movieList: movies, fromRecommendation: false)),
         );
       } catch (e) {
         emit(MovieFailure(message: e.toString()));
@@ -41,7 +42,12 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
 
         response.fold(
           (l) => emit(MovieFailure(message: l.message)),
-          (r) => emit(MovieSuccess(movieList: r)),
+          (r) => emit(
+            MovieSuccess(
+              movieList: r,
+              fromRecommendation: event.fromRecommendation,
+            ),
+          ),
         );
       } catch (e) {
         emit(MovieFailure(message: e.toString()));

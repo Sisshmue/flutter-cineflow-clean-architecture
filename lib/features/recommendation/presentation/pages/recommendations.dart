@@ -51,7 +51,7 @@ class _RecommendationsState extends State<Recommendations> {
       listeners: [
         BlocListener<MovieBloc, MovieState>(
           listener: (context, state) {
-            if (state is MovieSuccess) {
+            if (state is MovieSuccess && state.fromRecommendation == true) {
               final movieId = state.movieList[0].id;
               Navigator.push(
                 context,
@@ -94,7 +94,10 @@ class _RecommendationsState extends State<Recommendations> {
                           return GestureDetector(
                             onTap: () {
                               context.read<MovieBloc>().add(
-                                SearchMoviesEvent(keyWord: movie.title),
+                                SearchMoviesEvent(
+                                  keyWord: movie.title,
+                                  fromRecommendation: true,
+                                ),
                               );
                             },
                             child: RecommendationCard(
