@@ -11,10 +11,7 @@ class SearchMovies implements UseCase<List<Movie>, SearchMoviesParams> {
 
   @override
   Future<Either<Failure, List<Movie>>> call(SearchMoviesParams params) async {
-    return await movieRepository.searchMovies(
-      apiKey: params.apiKey,
-      keyWord: params.keyWord,
-    );
+    return await movieRepository.searchMovies(keyWord: params.keyWord);
   }
 }
 

@@ -8,10 +8,7 @@ abstract interface class MovieRepository {
     required String apiKey,
   });
 
-  Future<Either<Failure, List<Movie>>> searchMovies({
-    required String apiKey,
-    required String keyWord,
-  });
+  Future<Either<Failure, List<Movie>>> searchMovies({required String keyWord});
 
   Future<Either<Failure, MovieDetail>> getMovieDetail({required int movieId});
 }
