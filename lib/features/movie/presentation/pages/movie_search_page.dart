@@ -1,5 +1,5 @@
 import 'package:cineflow/core/theme/pallete.dart';
-import 'package:cineflow/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:cineflow/features/movie/presentation/bloc/movie/movie_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entity/movie.dart';

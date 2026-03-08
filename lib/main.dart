@@ -1,7 +1,7 @@
 import 'package:cineflow/core/theme/app_theme.dart';
 import 'package:cineflow/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cineflow/features/auth/presentation/widgets/auth_wrapper.dart';
-import 'package:cineflow/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:cineflow/features/movie/presentation/bloc/movie/movie_bloc.dart';
 import 'package:cineflow/features/movie/presentation/bloc/movie_detail/movie_detail_bloc.dart';
 import 'package:cineflow/features/recommendation/data/data_sources/remote_data_recommendation_source.dart';
 import 'package:cineflow/features/recommendation/data/repositroy/recommendation_impl.dart';

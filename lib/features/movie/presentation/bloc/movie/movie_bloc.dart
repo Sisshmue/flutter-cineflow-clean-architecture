@@ -1,7 +1,7 @@
 import 'package:cineflow/features/movie/domain/usecases/get_released_movies.dart';
 import 'package:cineflow/features/movie/domain/usecases/search_movies.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entity/movie.dart';
+import '../../../domain/entity/movie.dart';
 
 part 'movie_event.dart';
 part 'movie_state.dart';

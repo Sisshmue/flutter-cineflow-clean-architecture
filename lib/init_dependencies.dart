@@ -11,7 +11,7 @@ import 'package:cineflow/features/movie/domain/repository/movie_repository.dart'
 import 'package:cineflow/features/movie/domain/usecases/get_movie_detail.dart';
 import 'package:cineflow/features/movie/domain/usecases/get_released_movies.dart';
 import 'package:cineflow/features/movie/domain/usecases/search_movies.dart';
-import 'package:cineflow/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:cineflow/features/movie/presentation/bloc/movie/movie_bloc.dart';
 import 'package:cineflow/features/movie/presentation/bloc/movie_detail/movie_detail_bloc.dart';
 import 'package:cineflow/features/recommendation/data/data_sources/remote_data_recommendation_source.dart';
 import 'package:cineflow/features/recommendation/data/repositroy/recommendation_impl.dart';

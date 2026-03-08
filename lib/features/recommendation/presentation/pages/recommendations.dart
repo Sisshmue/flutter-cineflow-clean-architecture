@@ -1,4 +1,4 @@
-import 'package:cineflow/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:cineflow/features/movie/presentation/bloc/movie/movie_bloc.dart';
 import 'package:cineflow/features/movie/presentation/pages/movie_detail.dart';
 import 'package:cineflow/features/recommendation/presentation/bloc/recommendation_bloc.dart';
 import 'package:cineflow/features/recommendation/presentation/widgets/genre_chip.dart';
