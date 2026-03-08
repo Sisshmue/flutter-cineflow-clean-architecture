@@ -17,3 +17,8 @@ final class MovieFailure extends MovieState {
   final String message;
   MovieFailure({required this.message});
 }
+
+class MovieSavedStatusState extends MovieState {
+  final bool isSaved;
+  MovieSavedStatusState({required this.isSaved});
+}

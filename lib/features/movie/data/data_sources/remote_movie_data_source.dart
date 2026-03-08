@@ -1,8 +1,6 @@
 import 'package:cineflow/core/services/api_service.dart';
 import 'package:cineflow/features/movie/data/model/movie_detail_model.dart';
 import 'package:cineflow/features/movie/data/model/movie_model.dart';
-import '../../domain/entity/movie.dart';
-import '../../domain/entity/movie_detail.dart';
 
 abstract interface class RemoteMovieDataSource {
   Future<List<MovieModel>> getMovie({required String apiKey});

@@ -10,10 +10,17 @@ import 'package:cineflow/features/recommendation/presentation/bloc/recommendatio
 import 'package:cineflow/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
+
+import 'features/movie/data/model/movie_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
+  await Hive.initFlutter();
+  Hive.registerAdapter(MovieModelAdapter());
+  await Hive.openBox<MovieModel>('watch_later_movies');
   runApp(
     MultiBlocProvider(
       providers: [

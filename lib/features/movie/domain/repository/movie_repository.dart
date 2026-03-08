@@ -11,4 +11,10 @@ abstract interface class MovieRepository {
   Future<Either<Failure, List<Movie>>> searchMovies({required String keyWord});
 
   Future<Either<Failure, MovieDetail>> getMovieDetail({required int movieId});
+
+  Future<Either<Failure, List<Movie>>> getWatchLaterMovies();
+
+  Future<Either<Failure, void>> saveMovieToWatchLater({required Movie movie});
+  Future<Either<Failure, void>> removeWatchLaterMovie(int movieId);
+  Future<Either<Failure, bool>> isMovieInWatchLater(int movieId);
 }
