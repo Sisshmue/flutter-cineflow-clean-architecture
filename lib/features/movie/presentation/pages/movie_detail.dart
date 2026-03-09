@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/theme/pallete.dart';
 import '../../data/model/movie_model.dart';
 import '../bloc/movie/movie_bloc.dart';
 import '../bloc/movie_detail/movie_detail_bloc.dart';
+import '../widgets/movie_detail_skeleton.dart';
 
 class MovieDetailPage extends StatefulWidget {
   final int movieId;
@@ -33,11 +35,27 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       body: BlocBuilder<MovieDetailBloc, MovieDetailState>(
         builder: (context, state) {
           if (state is MovieDetailLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const MovieDetailSkeleton();
           }
 
           if (state is MovieDetailFail) {
-            return Center(child: Text(state.message));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.error_outline,
+                    size: 48,
+                    color: Pallete.primaryRed,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    state.message,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            );
           }
 
           if (state is MovieDetailSuccess) {
