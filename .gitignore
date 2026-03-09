@@ -45,4 +45,3 @@ app.*.map.json
 /android/app/release
 
 pubspec.lock
-lib/core/secrets/secrets_data.dart

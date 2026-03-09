@@ -2,9 +2,11 @@ import 'package:cineflow/features/movie/presentation/bloc/movie/movie_bloc.dart'
 import 'package:cineflow/features/movie/presentation/pages/movie_detail.dart';
 import 'package:cineflow/features/recommendation/presentation/bloc/recommendation_bloc.dart';
 import 'package:cineflow/features/recommendation/presentation/widgets/genre_chip.dart';
+import 'package:cineflow/features/recommendation/presentation/widgets/initial_ai_hub.dart';
 import 'package:cineflow/features/recommendation/presentation/widgets/recommendations_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import '../widgets/recommendation_card.dart';
 import '../widgets/recommendation_loading.dart';
@@ -78,38 +80,47 @@ class _RecommendationsState extends State<Recommendations> {
                 child: BlocConsumer<RecommendationBloc, RecommendationState>(
                   builder: (context, state) {
                     if (state is RecommendationInitial) {
-                      return const Center(
-                        child: Text('Type a genre to get started!'),
-                      );
+                      return InitialAIHub(sendMessage: _sendMessage);
                     }
                     if (state is RecommendationLoading) {
                       return RecommendationLoadingWidget();
                     }
 
                     if (state is RecommendationSuccess) {
-                      return ListView.builder(
-                        padding: const EdgeInsets.all(12),
-                        itemCount: state.recomList.length,
-                        itemBuilder: (context, index) {
-                          final movie = state.recomList[index];
+                      return AnimationLimiter(
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(12),
+                          itemCount: state.recomList.length,
+                          itemBuilder: (context, index) {
+                            final movie = state.recomList[index];
 
-                          return GestureDetector(
-                            onTap: () {
-                              context.read<MovieBloc>().add(
-                                SearchMoviesEvent(
-                                  keyWord: movie.title,
-                                  fromRecommendation: true,
-                                  page: 1,
+                            return AnimationConfiguration.staggeredList(
+                              position: index,
+                              duration: const Duration(milliseconds: 500),
+                              child: SlideAnimation(
+                                verticalOffset: 50.0,
+                                child: FadeInAnimation(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      context.read<MovieBloc>().add(
+                                        SearchMoviesEvent(
+                                          keyWord: movie.title,
+                                          fromRecommendation: true,
+                                          page: 1,
+                                        ),
+                                      );
+                                    },
+                                    child: RecommendationCard(
+                                      title: movie.title,
+                                      year: movie.year,
+                                      description: movie.description,
+                                    ),
+                                  ),
                                 ),
-                              );
-                            },
-                            child: RecommendationCard(
-                              title: movie.title,
-                              year: movie.year,
-                              description: movie.description,
-                            ),
-                          );
-                        },
+                              ),
+                            );
+                          },
+                        ),
                       );
                     }
                     return SizedBox.shrink();
