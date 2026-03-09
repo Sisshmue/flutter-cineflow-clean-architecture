@@ -27,6 +27,10 @@ class RecommendationsInput extends StatelessWidget {
                 border: Border.all(color: Colors.white10),
               ),
               child: TextField(
+                onSubmitted: (value) {
+                  sendMessage(controller.text);
+                  FocusScope.of(context).unfocus();
+                },
                 controller: controller,
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
@@ -42,7 +46,10 @@ class RecommendationsInput extends StatelessWidget {
 
           /// Send Button
           GestureDetector(
-            onTap: () => sendMessage(controller.text),
+            onTap: () {
+              sendMessage(controller.text);
+              FocusScope.of(context).unfocus();
+            },
             child: Container(
               height: 44,
               width: 44,
