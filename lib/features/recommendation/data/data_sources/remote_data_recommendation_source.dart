@@ -25,7 +25,7 @@ class RemoteDataRecommendationSourceImpl
     try {
       final prompt =
           '''
-      Generate a list of 5 movie recommendations for the genre: $parameter.
+      Generate a list of 5 movie or tv series recommendations for the genre: $parameter.
       Return a JSON object with a key "movies" containing an array of objects.
       Each object must have:
       - "id": a unique string ID
