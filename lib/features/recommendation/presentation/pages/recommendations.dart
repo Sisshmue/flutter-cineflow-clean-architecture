@@ -99,6 +99,7 @@ class _RecommendationsState extends State<Recommendations> {
                                 SearchMoviesEvent(
                                   keyWord: movie.title,
                                   fromRecommendation: true,
+                                  page: 1,
                                 ),
                               );
                             },

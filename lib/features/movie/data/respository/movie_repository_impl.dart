@@ -15,10 +15,10 @@ class MovieRepositoryImpl implements MovieRepository {
   });
   @override
   Future<Either<Failure, List<Movie>>> getReleaseMovies({
-    required String apiKey,
+    required int page,
   }) async {
     try {
-      final response = await remoteMovieDataSource.getMovie(apiKey: apiKey);
+      final response = await remoteMovieDataSource.getMovie(page: page);
       return right(response);
     } catch (e) {
       return left(Failure(message: e.toString()));
@@ -28,10 +28,12 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<Either<Failure, List<Movie>>> searchMovies({
     required String keyWord,
+    required int page,
   }) async {
     try {
       final response = await remoteMovieDataSource.searchMovie(
         keyWord: keyWord,
+        page: page,
       );
       return right(response);
     } catch (e) {

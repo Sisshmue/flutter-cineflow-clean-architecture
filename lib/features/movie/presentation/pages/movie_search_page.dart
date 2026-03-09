@@ -22,20 +22,31 @@ class MovieSearchPageState extends State<MovieSearchPage> {
   final _searchController = TextEditingController();
   bool _isFirstLoaded = true;
   List<Movie> movies = [];
+  int page = 1;
+  bool isLoadingMore = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<MovieBloc>().add(GetMovieRelease());
+    context.read<MovieBloc>().add(GetMovieRelease(page: page));
+
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_isBottom && !isLoadingMore) {
+      addPagination();
+    }
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     _searchController.dispose();
+    super.dispose();
   }
 
   void scrollToTop() {
@@ -43,7 +54,7 @@ class MovieSearchPageState extends State<MovieSearchPage> {
       _searchController.clear();
       if (_scrollController.offset == 0) {
         _isFirstLoaded = true;
-        context.read<MovieBloc>().add(GetMovieRelease());
+        context.read<MovieBloc>().add(GetMovieRelease(page: page));
       } else {
         _scrollController.animateTo(
           0,
@@ -51,6 +62,29 @@ class MovieSearchPageState extends State<MovieSearchPage> {
           curve: Curves.easeInOut,
         );
       }
+    }
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll - 200);
+  }
+
+  void addPagination() {
+    if (_scrollController.hasClients) {
+      final maxScroll = _scrollController.position.maxScrollExtent;
+      final currentScroll = _scrollController.offset;
+      setState(() {
+        isLoadingMore = true;
+      });
+      if (currentScroll >= (maxScroll - 200)) {
+        context.read<MovieBloc>().add(GetMovieRelease(page: page++));
+      }
+      setState(() {
+        isLoadingMore = false;
+      });
     }
   }
 
@@ -95,7 +129,9 @@ class MovieSearchPageState extends State<MovieSearchPage> {
                         ),
                         onPressed: () {
                           _searchController.clear();
-                          context.read<MovieBloc>().add(GetMovieRelease());
+                          context.read<MovieBloc>().add(
+                            GetMovieRelease(page: page),
+                          );
                         },
                         child: const Text(
                           'Retry',
@@ -109,7 +145,7 @@ class MovieSearchPageState extends State<MovieSearchPage> {
 
               if (state is MovieSuccess && state.fromRecommendation == false) {
                 _isFirstLoaded = false;
-                movies = state.movieList;
+                movies.addAll(state.movieList);
               }
               if (movies.isNotEmpty ||
                   (state is MovieLoading && !_isFirstLoaded)) {
@@ -117,7 +153,7 @@ class MovieSearchPageState extends State<MovieSearchPage> {
                   color: Pallete.primaryRed,
                   backgroundColor: Pallete.surface,
                   onRefresh: () async {
-                    context.read<MovieBloc>().add(GetMovieRelease());
+                    context.read<MovieBloc>().add(GetMovieRelease(page: page));
                     await context.read<MovieBloc>().stream.firstWhere(
                       (state) => state is MovieSuccess || state is MovieFailure,
                     );
@@ -144,8 +180,22 @@ class MovieSearchPageState extends State<MovieSearchPage> {
                                   0.7, // Rectangular portrait shape
                             ),
                         delegate: SliverChildBuilderDelegate(
-                          (context, index) => MovieCard(movie: movies[index]),
-                          childCount: movies.length,
+                          (context, index) {
+                            if (index >= movies.length) {
+                              return const Center(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: CircularProgressIndicator(
+                                    color: Pallete.primaryRed,
+                                  ),
+                                ),
+                              );
+                            }
+                            return MovieCard(movie: movies[index]);
+                          },
+                          childCount: isLoadingMore
+                              ? movies.length + 1
+                              : movies.length,
                         ),
                       ),
                     ],

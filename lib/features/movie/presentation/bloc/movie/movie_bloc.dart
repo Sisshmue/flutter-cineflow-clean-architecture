@@ -37,7 +37,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       emit(MovieLoading());
       try {
         final movies = await _getReleasedMovies(
-          GetReleasedMovieParam(apiKey: apiKey),
+          GetReleasedMovieParam(page: event.page),
         );
         movies.fold(
           (failure) => emit(MovieFailure(message: failure.message)),
@@ -53,7 +53,11 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       emit(MovieLoading());
       try {
         final response = await _searchMovies(
-          SearchMoviesParams(apiKey: apiKey, keyWord: event.keyWord),
+          SearchMoviesParams(
+            apiKey: apiKey,
+            keyWord: event.keyWord,
+            page: event.page,
+          ),
         );
 
         response.fold(

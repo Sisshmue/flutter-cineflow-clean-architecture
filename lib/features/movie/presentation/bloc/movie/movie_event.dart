@@ -2,12 +2,16 @@ part of 'movie_bloc.dart';
 
 class MovieEvent {}
 
-class GetMovieRelease extends MovieEvent {}
+class GetMovieRelease extends MovieEvent {
+  final int page;
+  GetMovieRelease({required this.page});
+}
 
 class SearchMoviesEvent extends MovieEvent {
   final String keyWord;
   bool fromRecommendation;
-  SearchMoviesEvent({required this.keyWord, this.fromRecommendation = false});
+  final int page;
+  SearchMoviesEvent({required this.keyWord, this.fromRecommendation = false, required this.page});
 }
 
 class SaveWatchLaterEvent extends MovieEvent {

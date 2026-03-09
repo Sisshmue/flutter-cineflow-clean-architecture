@@ -15,7 +15,9 @@ class MovieSearchBar extends StatelessWidget {
       onSubmitted: (value) {
         print(value);
         if (value.isNotEmpty && value.trim() != '') {
-          context.read<MovieBloc>().add(SearchMoviesEvent(keyWord: value));
+          context.read<MovieBloc>().add(
+            SearchMoviesEvent(keyWord: value, page: 1),
+          );
         }
       },
       decoration: InputDecoration(

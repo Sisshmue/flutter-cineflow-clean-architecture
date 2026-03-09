@@ -5,8 +5,8 @@ import 'package:cineflow/features/movie/data/model/movie_model.dart';
 import '../../domain/entity/movie_detail.dart';
 
 abstract interface class RemoteMovieDataSource {
-  Future<List<MovieModel>> getMovie({required String apiKey});
-  Future<List<SearchMovieModel>> searchMovie({required String keyWord});
+  Future<List<MovieModel>> getMovie({required int page});
+  Future<List<SearchMovieModel>> searchMovie({required String keyWord, required int page});
   Future<MovieDetail> getMovieDetail({
     required int movieId,
     required String type,
@@ -15,9 +15,9 @@ abstract interface class RemoteMovieDataSource {
 
 class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
   @override
-  Future<List<MovieModel>> getMovie({required String apiKey}) async {
+  Future<List<MovieModel>> getMovie({required int page}) async {
     print('Its actually loading the movies');
-    final res = await ApiService.apiGet('/trending/all/day');
+    final res = await ApiService.apiGet('/trending/all/day?page=$page');
     if (res['results'] is List) {
       return res['results']
           .map<MovieModel>((json) => MovieModel.fromJson(json))
@@ -28,14 +28,14 @@ class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
   }
 
   @override
-  Future<List<SearchMovieModel>> searchMovie({required String keyWord}) async {
+  Future<List<SearchMovieModel>> searchMovie({required String keyWord, required int page}) async {
     final url = Uri(
       path: '/search/multi',
       queryParameters: {
         'query': keyWord,
         'include_adult': 'true',
         'language': 'en',
-        'page': '1',
+        'page': '$page',
       },
     );
 

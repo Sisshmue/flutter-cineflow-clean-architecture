@@ -13,12 +13,12 @@ class GetReleasedMovies implements UseCase<List<Movie>, GetReleasedMovieParam> {
   Future<Either<Failure, List<Movie>>> call(
     GetReleasedMovieParam params,
   ) async {
-    return await movieRepository.getReleaseMovies(apiKey: params.apiKey);
+    return await movieRepository.getReleaseMovies(page: params.page);
   }
 }
 
 class GetReleasedMovieParam {
-  final String apiKey;
+  final int page;
 
-  GetReleasedMovieParam({required this.apiKey});
+  GetReleasedMovieParam({required this.page});
 }
