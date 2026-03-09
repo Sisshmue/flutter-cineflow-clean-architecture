@@ -9,11 +9,15 @@ class GetMovieDetail implements UseCase<MovieDetail, GetMovieDetailParams> {
   GetMovieDetail({required this.movieRepository});
   @override
   Future<Either<Failure, MovieDetail>> call(GetMovieDetailParams params) {
-    return movieRepository.getMovieDetail(movieId: params.movieId);
+    return movieRepository.getMovieDetail(
+      movieId: params.movieId,
+      type: params.type,
+    );
   }
 }
 
 class GetMovieDetailParams {
   final int movieId;
-  GetMovieDetailParams({required this.movieId});
+  final String type;
+  GetMovieDetailParams({required this.movieId, required this.type});
 }

@@ -42,10 +42,12 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<Either<Failure, MovieDetail>> getMovieDetail({
     required int movieId,
+    required String type,
   }) async {
     try {
       final response = await remoteMovieDataSource.getMovieDetail(
         movieId: movieId,
+        type: type,
       );
       return right(response);
     } catch (e) {

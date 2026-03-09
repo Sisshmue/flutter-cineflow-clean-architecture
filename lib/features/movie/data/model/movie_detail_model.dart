@@ -25,3 +25,29 @@ class MovieDetailModel extends MovieDetail {
     );
   }
 }
+
+class TvDetailModel extends MovieDetail {
+  TvDetailModel({
+    required super.title,
+    required super.description,
+    required super.genres,
+    required super.popularity,
+    required super.status,
+    required super.posterUrl,
+    required super.releaseDate,
+  });
+
+  factory TvDetailModel.fromJson(dynamic json) {
+    return TvDetailModel(
+      title: json['name'],
+      description: json['overview'],
+      genres: (json['genres'] as List)
+          .map((genre) => genre['name'] as String)
+          .toList(),
+      popularity: json['popularity'].toString(),
+      status: json['status'],
+      posterUrl: 'https://image.tmdb.org/t/p/w500/${json['backdrop_path']}',
+      releaseDate: json['last_air_date'],
+    );
+  }
+}

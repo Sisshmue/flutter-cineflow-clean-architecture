@@ -4,5 +4,6 @@ class MovieDetailEvent {}
 
 class GetMovieDetailEvent extends MovieDetailEvent {
   final int movieId;
-  GetMovieDetailEvent({required this.movieId});
+  final String type;
+  GetMovieDetailEvent({required this.movieId, required this.type});
 }

@@ -7,8 +7,9 @@ import '../bloc/movie_detail/movie_detail_bloc.dart';
 
 class MovieDetailPage extends StatefulWidget {
   final int movieId;
+  final String type;
 
-  const MovieDetailPage({super.key, required this.movieId});
+  const MovieDetailPage({super.key, required this.movieId, required this.type});
 
   @override
   State<MovieDetailPage> createState() => _MovieDetailPageState();
@@ -19,7 +20,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   void initState() {
     super.initState();
     context.read<MovieDetailBloc>().add(
-      GetMovieDetailEvent(movieId: widget.movieId),
+      GetMovieDetailEvent(movieId: widget.movieId, type: widget.type),
     );
     context.read<MovieBloc>().add(
       CheckMovieSavedStatusEvent(movieId: widget.movieId),

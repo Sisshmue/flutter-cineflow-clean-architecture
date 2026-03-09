@@ -53,10 +53,12 @@ class _RecommendationsState extends State<Recommendations> {
           listener: (context, state) {
             if (state is MovieSuccess && state.fromRecommendation == true) {
               final movieId = state.movieList[0].id;
+              final type = state.movieList[0].type;
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MovieDetailPage(movieId: movieId),
+                  builder: (context) =>
+                      MovieDetailPage(movieId: movieId, type: type),
                 ),
               );
             }
