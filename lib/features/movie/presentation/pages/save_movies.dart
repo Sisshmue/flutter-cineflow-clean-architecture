@@ -37,7 +37,7 @@ class _SavedMoviesPageState extends State<SavedMoviesPage> {
             return Center(child: Text(state.message));
           }
 
-          if (state is MovieSuccess) {
+          if (state is GetSavedMoviesSuccessState) {
             if (state.movieList.isEmpty) {
               return const Center(
                 child: Text(

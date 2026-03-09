@@ -93,7 +93,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         final response = await _getSavedMovies(NoParam());
         response.fold(
           (l) => emit(MovieFailure(message: l.message)),
-          (r) => emit(MovieSuccess(movieList: r, fromRecommendation: false)),
+          (r) => emit(GetSavedMoviesSuccessState(movieList: r)),
         );
       } catch (e) {
         emit(MovieFailure(message: e.toString()));

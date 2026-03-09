@@ -22,3 +22,8 @@ class MovieSavedStatusState extends MovieState {
   final bool isSaved;
   MovieSavedStatusState({required this.isSaved});
 }
+
+class GetSavedMoviesSuccessState extends MovieState {
+  final List<Movie> movieList;
+  GetSavedMoviesSuccessState({required this.movieList});
+}
