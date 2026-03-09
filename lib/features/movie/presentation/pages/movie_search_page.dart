@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entity/movie.dart';
 import '../widgets/movie_card.dart';
+import '../widgets/movie_grid_skeleton.dart';
 import '../widgets/movie_search_bar.dart';
 
 class MovieSearchPage extends StatefulWidget {
@@ -69,7 +70,7 @@ class MovieSearchPageState extends State<MovieSearchPage> {
             },
             builder: (context, state) {
               if (state is MovieLoading && _isFirstLoaded) {
-                return Center(child: CircularProgressIndicator());
+                return const MovieGridSkeleton();
               }
 
               if (state is MovieFailure) {
@@ -77,14 +78,29 @@ class MovieSearchPageState extends State<MovieSearchPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(state.message),
-                      SizedBox(height: 20),
-                      TextButton(
+                      const Icon(
+                        Icons.search_off,
+                        size: 64,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        state.message,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Pallete.primaryRed,
+                        ),
                         onPressed: () {
                           _searchController.clear();
                           context.read<MovieBloc>().add(GetMovieRelease());
                         },
-                        child: Text('Retry'),
+                        child: const Text(
+                          'Retry',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
