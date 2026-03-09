@@ -24,6 +24,7 @@ class MovieSearchPageState extends State<MovieSearchPage> {
   List<Movie> movies = [];
   int page = 1;
   bool isLoadingMore = false;
+  bool firstTimeSearch = false;
 
   @override
   void initState() {
@@ -40,6 +41,16 @@ class MovieSearchPageState extends State<MovieSearchPage> {
     }
   }
 
+  void onSearchSubmitted(String keyword) {
+    if (keyword.trim().isEmpty) return;
+    setState(() {
+      firstTimeSearch = true;
+      page = 1;
+      isLoadingMore = false;
+    });
+    context.read<MovieBloc>().add(SearchMoviesEvent(keyWord: keyword, page: 1));
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -54,6 +65,8 @@ class MovieSearchPageState extends State<MovieSearchPage> {
       _searchController.clear();
       if (_scrollController.offset == 0) {
         _isFirstLoaded = true;
+        movies.clear();
+        page = 1;
         context.read<MovieBloc>().add(GetMovieRelease(page: page));
       } else {
         _scrollController.animateTo(
@@ -76,15 +89,23 @@ class MovieSearchPageState extends State<MovieSearchPage> {
     if (_scrollController.hasClients) {
       final maxScroll = _scrollController.position.maxScrollExtent;
       final currentScroll = _scrollController.offset;
+      if (isLoadingMore) return;
+
       setState(() {
         isLoadingMore = true;
       });
+
       if (currentScroll >= (maxScroll - 200)) {
-        context.read<MovieBloc>().add(GetMovieRelease(page: page++));
+        if (_searchController.text.isNotEmpty) {
+          page++;
+          context.read<MovieBloc>().add(
+            SearchMoviesEvent(keyWord: _searchController.text, page: page),
+          );
+        } else {
+          page++;
+          context.read<MovieBloc>().add(GetMovieRelease(page: page));
+        }
       }
-      setState(() {
-        isLoadingMore = false;
-      });
     }
   }
 
@@ -143,9 +164,19 @@ class MovieSearchPageState extends State<MovieSearchPage> {
                 );
               }
 
-              if (state is MovieSuccess && state.fromRecommendation == false) {
+              if (state is MovieSuccess) {
                 _isFirstLoaded = false;
-                movies.addAll(state.movieList);
+
+                if (firstTimeSearch) {
+                  movies
+                    ..clear()
+                    ..addAll(state.movieList);
+                  firstTimeSearch = false;
+                } else {
+                  // Pagination mode
+                  movies.addAll(state.movieList);
+                  isLoadingMore = false;
+                }
               }
               if (movies.isNotEmpty ||
                   (state is MovieLoading && !_isFirstLoaded)) {
@@ -167,6 +198,7 @@ class MovieSearchPageState extends State<MovieSearchPage> {
                           padding: EdgeInsets.symmetric(vertical: 20.0),
                           child: MovieSearchBar(
                             searchController: _searchController,
+                            onSearchSubmitted: onSearchSubmitted,
                           ),
                         ),
                       ),

@@ -6,7 +6,10 @@ import '../../domain/entity/movie_detail.dart';
 
 abstract interface class RemoteMovieDataSource {
   Future<List<MovieModel>> getMovie({required int page});
-  Future<List<SearchMovieModel>> searchMovie({required String keyWord, required int page});
+  Future<List<SearchMovieModel>> searchMovie({
+    required String keyWord,
+    required int page,
+  });
   Future<MovieDetail> getMovieDetail({
     required int movieId,
     required String type,
@@ -28,7 +31,10 @@ class RemoteMovieDataSourceImpl implements RemoteMovieDataSource {
   }
 
   @override
-  Future<List<SearchMovieModel>> searchMovie({required String keyWord, required int page}) async {
+  Future<List<SearchMovieModel>> searchMovie({
+    required String keyWord,
+    required int page,
+  }) async {
     final url = Uri(
       path: '/search/multi',
       queryParameters: {
