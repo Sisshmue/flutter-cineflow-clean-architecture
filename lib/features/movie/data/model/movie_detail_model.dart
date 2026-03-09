@@ -40,14 +40,14 @@ class TvDetailModel extends MovieDetail {
   factory TvDetailModel.fromJson(dynamic json) {
     return TvDetailModel(
       title: json['name'],
-      description: json['overview'],
+      description: json['overview'] ?? 'No OverView',
       genres: (json['genres'] as List)
           .map((genre) => genre['name'] as String)
           .toList(),
       popularity: json['popularity'].toString(),
-      status: json['status'],
+      status: json['status'] ?? 'Unknown',
       posterUrl: 'https://image.tmdb.org/t/p/w500/${json['backdrop_path']}',
-      releaseDate: json['last_air_date'],
+      releaseDate: json['last_air_date'] ?? 'Unknown',
     );
   }
 }

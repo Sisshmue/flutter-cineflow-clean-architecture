@@ -145,7 +145,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                                     title: movie.title,
                                     releaseDate: movie.releaseDate,
                                     rating: movie.popularity,
-                                    type: movie.status,
+                                    type: widget.type,
                                     posterUrl: movie.posterUrl,
                                   );
 
