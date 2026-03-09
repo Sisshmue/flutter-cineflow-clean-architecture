@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cineflow/core/theme/pallete.dart';
 import 'package:cineflow/features/movie/presentation/bloc/movie/movie_bloc.dart';
+import 'package:cineflow/features/movie/presentation/pages/movie_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -53,6 +54,21 @@ class _SavedMoviesPageState extends State<SavedMoviesPage> {
                 final movie = state.movieList[index];
 
                 return ListTile(
+                  onTap: () async {
+                    final movieBloc = context.read<MovieBloc>();
+
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MovieDetailPage(
+                          movieId: movie.id,
+                          type: movie.type,
+                        ),
+                      ),
+                    );
+
+                    movieBloc.add(GetWatchLaterMoviesEvent());
+                  },
                   leading: CachedNetworkImage(
                     imageUrl: movie.posterUrl,
                     width: 50,
